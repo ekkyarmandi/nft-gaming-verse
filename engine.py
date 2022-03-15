@@ -1,8 +1,5 @@
 import json, os
-
-def check_folder(path):
-    if not os.path.exists(path):
-        os.mkdir(path)
+from scripts import svg_writer as svg
 
 def compiler(root,generate_attribute=True,generate_source=True):
 
@@ -11,7 +8,7 @@ def compiler(root,generate_attribute=True,generate_source=True):
         # define the output folder
         output_path = 'output'
         attribute_file_name = 'attributes.json'
-        check_folder(output_path)
+        svg.check_folder(output_path)
         
         # generate attributes
         attributes = {}
@@ -32,7 +29,12 @@ def compiler(root,generate_attribute=True,generate_source=True):
         )
 
     if generate_source:
-        pass
+        
+        # collecting the layers
+        layers = svg.find_all_layers('layers')
+
+        # extract sequences
+        sequences = sorted(list(dict.fromkeys([l['sequence'] for l in layers])))
 
 def generator():
     pass
