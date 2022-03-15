@@ -1,9 +1,22 @@
-import json, os, sys
+# add local PATH
+import os
+gtkhome = "C:\\Program Files\\GTK3-Runtime Win64\\bin"
+os.environ["PATH"] = gtkhome + ";" + os.environ["PATH"]
 
+# import necessary libraries
+from xml.etree import ElementTree as ET
+from tqdm import tqdm
+import cairosvg
+import random
+import json
+import sys
+
+# import local functions
 from scripts import rule
 from scripts import svg_writer as svg
 
-import random
+# exclude the namespace
+ET.register_namespace("","http://www.w3.org/2000/svg")
 
 def compiler(layers_path,generate_attribute=True,generate_source=True):
 
@@ -40,17 +53,17 @@ def compiler(layers_path,generate_attribute=True,generate_source=True):
         # create the source.svg file
         svg.create(source_path=layers_path)
 
-def generator(number=10, attribute_file='source\\attributes.json', output_path='output\\matadata.json'):
+def generator(number=10, attribute_file='source\\attributes.json', output_path='output\\metadata.json'):
 
     # define the trait type choosing sequence
     trait_types = [
         'BACKGROUND',
         'SKIN',
         'VITILIGO SKIN',
-        'EYES',
-        'MOUTH',
         'CLOTHES',
         'HEAD',
+        'EYES',
+        'MOUTH',
         'FACE',
         'HAIR',
         'ACCESSORIES',
@@ -59,6 +72,7 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
 
     # define the empty variable
     metadata = []
+    number = int(number)
     for i in range(number):
 
         # read the attributes file
@@ -77,22 +91,55 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
 
     # dump the metadata
     json.dump(metadata,open(output_path,'w'),indent=4)
+    print(number,'metadata have been generated')
 
-def exporter():
-    pass
+def exporter(metadata_path):
+
+    def metadata2list(metadata):
+        return [f'{k}_{v}' for k,v in metadata.items() if v != "NOTHING"]
+    
+    # read the metadata
+    metadata = json.load(open(metadata_path))
+
+    # export the artworks based on metadata
+    file_name = "output\\sample{}.png"
+    for i,j in tqdm(enumerate(metadata)):
+
+        # print out the process
+        # print(file_name.format(i+1))
+
+        # read the svg file
+        tree = ET.parse(open("source\\source.svg"))
+        root = tree.getroot()
+
+        # apply the metadata
+        for element in root.iter():
+            if element.tag.split("}")[-1] == "g":
+                label = element.get("{http://www.inkscape.org/namespaces/inkscape}label")
+                if label in metadata2list(j):
+                    style = element.get("style")
+                    new_style = style.replace("display:none","display:inline")
+                    element.set("style",new_style)
+                    
+        # export the ballz
+        tree.write("source\\exported.svg",xml_declaration=True)
+
+        # export the svg into png
+        cairosvg.svg2png(url="source\\exported.svg", write_to=file_name.format(i+1))
 
 if __name__ == "__main__":
 
     if sys.argv[1] == 'compile':
-
         compiler(
-            'layers',
+            layers_path='layers',
             generate_attribute=False,
             generate_source=True
         )
 
-    # elif sys.argv[1] == 'generate':
+    elif sys.argv[1] == 'generate':
+        generator(number=10)
 
-    #     generator('./source/attributes.json')
+    elif sys.argv[1] == "export":
+        exporter('output\\metadata.json')
 
-    # generator(number=10)
+    # exporter('output\\metadata.json')
