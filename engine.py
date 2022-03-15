@@ -1,7 +1,13 @@
-import json, os
+import json, os, sys
+
+from attr import attr
+
+from scripts import rule
 from scripts import svg_writer as svg
 
-def compiler(root,generate_attribute=True,generate_source=True):
+import random
+
+def compiler(layers_path,generate_attribute=True,generate_source=True):
 
     if generate_attribute:
         
@@ -12,7 +18,7 @@ def compiler(root,generate_attribute=True,generate_source=True):
         
         # generate attributes
         attributes = {}
-        for root, _, files in os.walk(root):
+        for _, _, files in os.walk(layers_path):
             for file in files:
                 if file.endswith("png"):
                     file_name, _ = os.path.splitext(file.split("/")[-1])
@@ -30,18 +36,41 @@ def compiler(root,generate_attribute=True,generate_source=True):
 
     if generate_source:
         
-        # prepare the source layers
-        layers_path = 'layers'
-
         # create the source.svg file
-        svg.create(layers_path)
+        svg.create(source_path=layers_path)
 
-def generator():
-    pass
+def generator(attribute_file):
+    
+    attribute = json.load(open(attribute_file))
+
+    skin_colors = [
+        'WHITE',
+        'BLACK',
+        'ALBINO'
+    ]
+
+    skin_color = random.choice(['WHITE','BLACK','ALBINO'])
+    vitiligo = random.choice([True,False])
+
+    attribute = rule.by_skin(skin_color,vitiligo,attribute)
+
+    # for key in attribute:
+    #     item = random.choice(attribute[key])
+    #     instance.update({key:item})
 
 def exporter():
     pass
 
 if __name__ == "__main__":
 
-    compiler('layers',generate_attribute=True)
+    if sys.argv[1] == 'compile':
+
+        compiler(
+            'layers',
+            generate_attribute=False,
+            generate_source=True
+        )
+
+    elif sys.argv[1] == 'generate':
+
+        generator('./source/attributes.json')

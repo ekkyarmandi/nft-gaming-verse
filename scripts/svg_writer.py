@@ -111,6 +111,9 @@ def create(file_name='source.svg',source_path=None):
         # close document tag
         f.write('</svg>')
 
+    # print out the message
+    print(file_name,"has been created.")
+
 if __name__ == '__main__':
 
     create(source_path='layers')
