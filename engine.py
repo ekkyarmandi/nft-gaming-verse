@@ -1,7 +1,5 @@
 import json, os, sys
 
-from attr import attr
-
 from scripts import rule
 from scripts import svg_writer as svg
 
@@ -12,7 +10,7 @@ def compiler(layers_path,generate_attribute=True,generate_source=True):
     if generate_attribute:
         
         # define the output folder
-        output_path = 'output'
+        output_path = 'source'
         attribute_file_name = 'attributes.json'
         svg.check_folder(output_path)
         
@@ -34,29 +32,51 @@ def compiler(layers_path,generate_attribute=True,generate_source=True):
             indent=4
         )
 
+        # print out the message
+        print(attribute_file_name,"have been creat")
+
     if generate_source:
         
         # create the source.svg file
         svg.create(source_path=layers_path)
 
-def generator(attribute_file):
-    
-    attribute = json.load(open(attribute_file))
+def generator(number=10, attribute_file='source\\attributes.json', output_path='output\\matadata.json'):
 
-    skin_colors = [
-        'WHITE',
-        'BLACK',
-        'ALBINO'
+    # define the trait type choosing sequence
+    trait_types = [
+        'BACKGROUND',
+        'SKIN',
+        'VITILIGO SKIN',
+        'EYES',
+        'MOUTH',
+        'CLOTHES',
+        'HEAD',
+        'FACE',
+        'HAIR',
+        'ACCESSORIES',
+        'GAMING GADGETS'
     ]
 
-    skin_color = random.choice(['WHITE','BLACK','ALBINO'])
-    vitiligo = random.choice([True,False])
+    # define the empty variable
+    metadata = []
+    for i in range(number):
 
-    attribute = rule.by_skin(skin_color,vitiligo,attribute)
+        # read the attributes file
+        attributes = json.load(open(attribute_file))
 
-    # for key in attribute:
-    #     item = random.choice(attribute[key])
-    #     instance.update({key:item})
+        # random generate the combination
+        instance = {}
+        for trait_type in trait_types:
+            item = random.choice(attributes[trait_type])
+            attributes = rule.update(trait_type,item,attributes)
+            instance = rule.get_rid(trait_type,item,instance)
+            instance.update({trait_type:item})
+
+        # collect the instance
+        metadata.append(instance)
+
+    # dump the metadata
+    json.dump(metadata,open(output_path,'w'),indent=4)
 
 def exporter():
     pass
@@ -71,6 +91,8 @@ if __name__ == "__main__":
             generate_source=True
         )
 
-    elif sys.argv[1] == 'generate':
+    # elif sys.argv[1] == 'generate':
 
-        generator('./source/attributes.json')
+    #     generator('./source/attributes.json')
+
+    # generator(number=10)

@@ -34,7 +34,7 @@ def encode_image(data,size):
     layer = f'''  <g
     inkscape:groupmode="layer"
     id="layer{data['index']}"
-    style="display:inline"
+    style="display:none"
     inkscape:label="{data['trait_name']}">
     <image
         width="{size[0]}"
@@ -112,7 +112,7 @@ def create(file_name='source.svg',source_path=None):
         f.write('</svg>')
 
     # print out the message
-    print(file_name,"has been created.")
+    print(file_name,"have been created.")
 
 if __name__ == '__main__':
 

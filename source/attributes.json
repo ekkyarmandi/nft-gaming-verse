@@ -26,8 +26,42 @@
     "SKIN": [
         "ALBINO BASE",
         "BASE",
-        "BLACK BASE",
-        "VITILIGO SKIN BASE"
+        "BLACK BASE"
+    ],
+    "EYES": [
+        "GLOW TEAL",
+        "GLOW",
+        "SLEEPY",
+        "BASE BLUE",
+        "BASE GREEN",
+        "BASE LIGHT BROWN",
+        "BASE LIGHT GREEN",
+        "BASE LIGHT PURPLE",
+        "BASE RED",
+        "BASE VIOLET",
+        "CYCLOPS LASER GLASSES",
+        "VR GOGGLES BROWN",
+        "VR GOGGLES LIGHT GREY",
+        "VR GOGGLES MULTICOLOR 01",
+        "VR GOGGLES MULTICOLOR 02",
+        "VR GOGGLES MULTICOLOR 03",
+        "VR GOGGLES MULTICOLOR 04",
+        "VR GOGGLES MULTICOLOR 05",
+        "VR GOGGLES MULTICOLOR 06",
+        "VR GOGGLES",
+        "NOTHING"
+    ],
+    "MOUTH": [
+        "BRACES BLACK",
+        "BRACES",
+        "BUBBLEGUM BLACK",
+        "BUBBLEGUM",
+        "CIGAR",
+        "LOLLIPOP"
+    ],
+    "VITILIGO SKIN": [
+        "BASE",
+        "NOTHING"
     ],
     "CLOTHES": [
         "ASSASSIN'S CREED COSTUME",
@@ -58,36 +92,6 @@
         "TSHIRT GRADIENT 02",
         "TSHIRT GRADIENT 03",
         "TSHIRT GRADIENT 04"
-    ],
-    "EYES": [
-        "BASE BLUE",
-        "BASE GREEN",
-        "BASE LIGHT BROWN",
-        "BASE LIGHT GREEN",
-        "BASE LIGHT PURPLE",
-        "BASE RED",
-        "BASE VIOLET",
-        "CYCLOPS LASER GLASSES",
-        "GLOW TEAL",
-        "GLOW",
-        "SLEEPY",
-        "VR GOGGLES BROWN",
-        "VR GOGGLES LIGHT GREY",
-        "VR GOGGLES MULTICOLOR 01",
-        "VR GOGGLES MULTICOLOR 02",
-        "VR GOGGLES MULTICOLOR 03",
-        "VR GOGGLES MULTICOLOR 04",
-        "VR GOGGLES MULTICOLOR 05",
-        "VR GOGGLES MULTICOLOR 06",
-        "VR GOGGLES"
-    ],
-    "MOUTH": [
-        "BRACES BLACK",
-        "BRACES",
-        "BUBBLEGUM BLACK",
-        "BUBBLEGUM",
-        "CIGAR",
-        "LOLLIPOP"
     ],
     "FACE": [
         "AGENT 47 BARCODE",
@@ -138,7 +142,7 @@
         "WATIO HAT"
     ],
     "ACCESSORIES": [
-        "BAG  ORANGE",
+        "BAG ORANGE",
         "BAG DARK GREY",
         "BAG GREEN",
         "BAG GREY",
