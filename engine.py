@@ -30,11 +30,11 @@ def compiler(root,generate_attribute=True,generate_source=True):
 
     if generate_source:
         
-        # collecting the layers
-        layers = svg.find_all_layers('layers')
+        # prepare the source layers
+        layers_path = 'layers'
 
-        # extract sequences
-        sequences = sorted(list(dict.fromkeys([l['sequence'] for l in layers])))
+        # create the source.svg file
+        svg.create(layers_path)
 
 def generator():
     pass
