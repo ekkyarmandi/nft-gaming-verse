@@ -46,7 +46,7 @@ def compiler(layers_path,generate_attribute=True,generate_source=True):
         )
 
         # print out the message
-        print(attribute_file_name,"have been creat")
+        print(attribute_file_name,"have been created.")
 
     if generate_source:
         
@@ -60,6 +60,7 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
         'BACKGROUND',
         'SKIN',
         'VITILIGO SKIN',
+        'VITILIGO MOUTH',
         'CLOTHES',
         'HEAD',
         'EYES',
@@ -102,8 +103,9 @@ def exporter(metadata_path):
     metadata = json.load(open(metadata_path))
 
     # export the artworks based on metadata
+    i = 0
     file_name = "output\\sample{}.png"
-    for i,j in tqdm(enumerate(metadata)):
+    for j in tqdm(metadata, desc='Exporting Gaming Verse', ncols=100):
 
         # print out the process
         # print(file_name.format(i+1))
@@ -127,19 +129,25 @@ def exporter(metadata_path):
         # export the svg into png
         cairosvg.svg2png(url="source\\exported.svg", write_to=file_name.format(i+1))
 
+        # increment i
+        i += 1
+
+    # remove the export file
+    os.remove('source\\exported.svg')
+
 if __name__ == "__main__":
 
     if sys.argv[1] == 'compile':
         compiler(
             layers_path='layers',
-            generate_attribute=False,
+            generate_attribute=True,
             generate_source=True
         )
 
     elif sys.argv[1] == 'generate':
-        generator(number=10)
+        generator(number=sys.argv[2])
 
     elif sys.argv[1] == "export":
         exporter('output\\metadata.json')
 
-    # exporter('output\\metadata.json')
+    # generator()

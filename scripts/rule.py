@@ -37,6 +37,7 @@ def update(key,value,attributes):
 
     if key == "VITILIGO SKIN" and value == "BASE":
         attributes = remove_vr(attributes)
+        attributes['MOUTH'] = ['NOTHING']
 
     if key == "EYES" and any([x in value for x in ["VR","CYCLOPS"]]):
         attributes['FACE'] = ['NOTHING']
@@ -53,7 +54,6 @@ def update(key,value,attributes):
     if key == "HEAD" and value in ["LUIGI HAT","MARIO HAT","WATIO HAT"]:
         attributes['HAIR'] = ['NOTHING']
     elif key == "HEAD" and value == "JASON MASK":
-        attributes['HAIR'] = ['NOTHING']
         attributes['MOUTH'] = ['NOTHING']
     elif key == "HEAD" and value == "DRINKING SODA HELMET":
         attributes['HAIR'] = ['NOTHING']
