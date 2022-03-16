@@ -60,11 +60,12 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
         'BACKGROUND',
         'SKIN',
         'VITILIGO SKIN',
-        'VITILIGO MOUTH',
+        'MOUTH',
+        'VITILIGO FACE',
         'CLOTHES',
         'HEAD',
         'EYES',
-        'MOUTH',
+        'EYES PUPIL',
         'FACE',
         'HAIR',
         'ACCESSORIES',
@@ -93,6 +94,15 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
     # dump the metadata
     json.dump(metadata,open(output_path,'w'),indent=4)
     print(number,'metadata have been generated')
+    
+    # while True:
+    #     model = {}
+    #     attributes = json.load(open(attribute_file))
+    #     for trait_type in trait_types:
+    #         item = random.choice(attributes[trait_type])
+    #         attributes = rule.update(trait_type,item,attributes)
+    #         model = rule.get_rid(trait_type,item,model)
+    #         model.update({trait_type:item})
 
 def exporter(metadata_path):
 
@@ -140,7 +150,7 @@ if __name__ == "__main__":
     if sys.argv[1] == 'compile':
         compiler(
             layers_path='layers',
-            generate_attribute=True,
+            generate_attribute=False,
             generate_source=True
         )
 

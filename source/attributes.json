@@ -43,22 +43,29 @@
         "XBOX CONTROLLER RED",
         "XBOX CONTROLLER"
     ],
-    "VITILIGO MOUTH": [
-        "VITILIGO",
-        "NOTHING"
+    "VITILIGO FACE": [
+        "BASE",
+        "MOUTH"
     ],
     "VITILIGO SKIN": [
-        "VITILIGO",
+        "BASE",
         "NOTHING"
     ],
+    "EYES PUPIL": [
+        "BASE BLUE",
+        "BASE GREEN",
+        "BASE LIGHT BROWN",
+        "BASE LIGHT GREEN",
+        "BASE PURPLE",
+        "BASE RED",
+        "BASE VIOLET",
+        "SLEEPY BLUE",
+        "SLEEPY GREEN",
+        "SLEEPY PURPLE",
+        "SLEEPY RED",
+        "SLEEPY TURQUOISE"
+    ],
     "EYES": [
-        "BASE PUPIL BLUE",
-        "BASE PUPIL GREEN",
-        "BASE PUPIL LIGHT BROWN",
-        "BASE PUPIL LIGHT GREEN",
-        "BASE PUPIL PURPLE",
-        "BASE PUPIL RED",
-        "BASE PUPIL VIOLET",
         "CYCLOPS LASER GLASSES BLUE",
         "CYCLOPS LASER GLASSES GREEN",
         "CYCLOPS LASER GLASSES PINK",
@@ -78,11 +85,6 @@
         "SLEEPY (ALBINO)",
         "SLEEPY (BLACK)",
         "SLEEPY (WHITE)",
-        "SLEEPY PUPIL BLUE",
-        "SLEEPY PUPIL GREEN",
-        "SLEEPY PUPIL PURPLE",
-        "SLEEPY PUPIL RED",
-        "SLEEPY PUPIL TURQUOISE",
         "VR GOGGLES BLACK",
         "VR GOGGLES BROWN",
         "VR GOGGLES LIGHT GREY",
@@ -244,6 +246,10 @@
         "T-SHIRT CAMOUFLAGE PURPLE",
         "T-SHIRT CAMOUFLAGE",
         "T-SHIRT DARK BLUE",
+        "T-SHIRT GRADIENT 01",
+        "T-SHIRT GRADIENT 02",
+        "T-SHIRT GRADIENT 03",
+        "T-SHIRT GRADIENT 04",
         "T-SHIRT GREEN",
         "T-SHIRT LIGHT GREEN",
         "T-SHIRT ORANGE",
@@ -257,11 +263,7 @@
         "T-SHIRT TURQUOISE",
         "T-SHIRT WHITE",
         "T-SHIRT YELLOW",
-        "TOMMY VERCETTI SHIRT",
-        "TSHIRT GRADIENT 01",
-        "TSHIRT GRADIENT 02",
-        "TSHIRT GRADIENT 03",
-        "TSHIRT GRADIENT 04"
+        "TOMMY VERCETTI SHIRT"
     ],
     "ACCESSORIES": [
         "BK BAG BLACK",
