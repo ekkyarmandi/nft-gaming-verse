@@ -24,7 +24,7 @@ def collect_layers(source_path,database='source\\layers_configuration.db'):
         if file.endswith('png'):
             file = file.strip('.png')
             splits = file.split('_')
-            index = splits[0]
+            # index = splits[0]
             # file_name = "_".join(splits[1:])
             trait_type = splits[1]
             trait_name = splits[2]

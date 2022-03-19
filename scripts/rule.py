@@ -167,4 +167,12 @@ def reformat(metadata):
     if 'GOD OF WAR' in metadata['FACE']:
         new_metadata['FACE'] = 'GOD OF WAR'
 
+    if any([x in metadata['EYES'] for x in ['SLEEPY','GLOW','NOTHING']]):
+        if metadata['EYES'] == 'NOTHING':
+            new_metadata['EYES'] = metadata['EYES'] = 'BASE'
+        if metadata['EYES PUPIL'] != 'NOTHING':
+            color = metadata['EYES PUPIL'].split(' ')[1:]
+            color = " ".join(color)
+            new_metadata['EYES'] = " ".join([metadata['EYES'],color,'PUPIL'])
+
     return new_metadata
