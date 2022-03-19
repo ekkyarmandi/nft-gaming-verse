@@ -97,15 +97,6 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
     json.dump(metadata,open(output_path,'w'),indent=4)
     print(number,'metadata have been generated')
     
-    # while True:
-    #     model = {}
-    #     attributes = json.load(open(attribute_file))
-    #     for trait_type in trait_types:
-    #         item = random.choice(attributes[trait_type])
-    #         attributes = rule.update(trait_type,item,attributes)
-    #         model = rule.get_rid(trait_type,item,model)
-    #         model.update({trait_type:item})
-
 def exporter(metadata_path,file_name="sample"):
 
     def metadata2list(metadata):
