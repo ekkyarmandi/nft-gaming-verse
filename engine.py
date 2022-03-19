@@ -91,6 +91,7 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
             instance.update({trait_type:item})
 
         # collect the instance
+        instance = rule.reformat(instance)
         metadata.append(instance)
 
     # dump the metadata
@@ -137,16 +138,18 @@ def exporter(metadata_path,file_name="sample"):
 
 if __name__ == "__main__":
 
-    if sys.argv[1] == 'compile':
-        compiler(
-            layers_path='layers',
-            generate_attribute=False,
-            generate_source=True
-        )
+    # if sys.argv[1] == 'compile':
+    #     compiler(
+    #         layers_path='layers',
+    #         generate_attribute=False,
+    #         generate_source=True
+    #     )
 
-    elif sys.argv[1] == 'generate':
-        generator(number=sys.argv[2])
+    # elif sys.argv[1] == 'generate':
+    #     generator(number=sys.argv[2])
 
-    elif sys.argv[1] == "export":
-        try: exporter(os.path.join('output',sys.argv[2]),sys.argv[3])
-        except: exporter(os.path.join('output','metadata.json'),file_name='sample')
+    # elif sys.argv[1] == "export":
+    #     try: exporter(os.path.join('output',sys.argv[2]),sys.argv[3])
+    #     except: exporter(os.path.join('output','metadata.json'),file_name='sample')
+
+    generator()

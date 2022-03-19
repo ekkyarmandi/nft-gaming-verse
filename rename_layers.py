@@ -25,9 +25,11 @@ def collect_layers(source_path,database='source\\layers_configuration.db'):
             file = file.strip('.png')
             splits = file.split('_')
             index = splits[0]
-            file_name = "_".join(splits[1:])
+            # file_name = "_".join(splits[1:])
+            trait_type = splits[1]
+            trait_name = splits[2]
 
-            cur.execute(f'INSERT or IGNORE INTO rarity(layers) VALUES("{file_name}")')
+            cur.execute(f'INSERT or IGNORE INTO rarity(trait_type,trait_name) VALUES(?,?)',(trait_type,trait_name))
 
     con.commit()
     con.close()

@@ -1,5 +1,4 @@
-from html import entities
-
+import re
 
 def update(key,value,attributes):
 
@@ -125,3 +124,47 @@ def get_rid(key,value,instance):
         instance['MOUTH'] = 'NOTHING'
     
     return instance
+
+def reformat(metadata):
+
+    def remove_text_in_bracket(text):
+        x = re.search('\((.*?)\)',text)
+        if x != None:
+            w = x.group()
+            text = text.replace(w,"").strip()
+        return text
+
+    new_metadata = {
+        "BACKGROUND": metadata['BACKGROUND'],
+        "SKIN": metadata['SKIN'],
+        "MOUTH": None,
+        "CLOTHES": metadata['CLOTHES'],
+        "HEAD": metadata['HEAD'],
+        "EYES": None,
+        "FACE": None,
+        "HAIR": None,
+        "ACCESSORIES": metadata['ACCESSORIES'],
+        "GAMING GADGETS": metadata['GAMING GADGETS']
+    }
+
+    new_metadata['EYES'] = metadata['EYES'] = remove_text_in_bracket(metadata['EYES'])
+    new_metadata['FACE'] = metadata['FACE'] = remove_text_in_bracket(metadata['FACE'])
+    new_metadata['HAIR'] = metadata['HAIR'] = remove_text_in_bracket(metadata['HAIR'])
+
+    if metadata['VITILIGO SKIN'] == 'BASE':
+        new_metadata['SKIN'] = " ".join([metadata['SKIN'],'VITILIGO'])
+
+    if 'LOKI CROWN' in metadata['HEAD']:
+        new_metadata['HEAD'] = 'LOKI CROWN'
+    elif 'HEADPHONES' in metadata['HEAD']:
+        new_metadata['HEAD'] = " ".join(metadata['HEAD'].split(" ")[:2])
+
+    if metadata['MOUTH'] != 'NOTHING':
+        new_metadata['MOUTH'] = remove_text_in_bracket(metadata['MOUTH'])
+    elif metadata['MOUTH'] == 'NOTHING':
+        new_metadata['MOUTH'] = 'BASE'
+
+    if 'GOD OF WAR' in metadata['FACE']:
+        new_metadata['FACE'] = 'GOD OF WAR'
+
+    return new_metadata
