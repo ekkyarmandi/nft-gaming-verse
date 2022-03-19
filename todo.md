@@ -8,5 +8,8 @@ Main Task
 ---
 Next Task
 * Regenerate the attributes ✅
-* Fix the logic
-* Update layers database information
+* Fix the logic ✅
+* Update layers database information ✅
+* Working on rarity stuff
+* Generate 100 examples
+* Produce

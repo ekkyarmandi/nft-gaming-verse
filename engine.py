@@ -1,4 +1,5 @@
 # add local PATH
+from fileinput import filename
 import os
 gtkhome = "C:\\Program Files\\GTK3-Runtime Win64\\bin"
 os.environ["PATH"] = gtkhome + ";" + os.environ["PATH"]
@@ -69,7 +70,8 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
         'FACE',
         'HAIR',
         'ACCESSORIES',
-        'GAMING GADGETS'
+        'GAMING GADGETS',
+        'BUBBLE GUM'
     ]
 
     # define the empty variable
@@ -104,7 +106,7 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
     #         model = rule.get_rid(trait_type,item,model)
     #         model.update({trait_type:item})
 
-def exporter(metadata_path):
+def exporter(metadata_path,file_name="sample"):
 
     def metadata2list(metadata):
         return [f'{k}_{v}' for k,v in metadata.items() if v != "NOTHING"]
@@ -114,11 +116,8 @@ def exporter(metadata_path):
 
     # export the artworks based on metadata
     i = 0
-    file_name = "output\\sample{}.png"
+    file_name = "output\\" + str(file_name) + "{}.png"
     for j in tqdm(metadata, desc='Exporting Gaming Verse', ncols=100):
-
-        # print out the process
-        # print(file_name.format(i+1))
 
         # read the svg file
         tree = ET.parse(open("source\\source.svg"))
@@ -158,6 +157,5 @@ if __name__ == "__main__":
         generator(number=sys.argv[2])
 
     elif sys.argv[1] == "export":
-        exporter('output\\metadata.json')
-
-    # generator()
+        try: exporter(os.path.join('output',sys.argv[2]),sys.argv[3])
+        except: exporter(os.path.join('output','metadata.json'),file_name='sample')

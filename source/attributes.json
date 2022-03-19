@@ -63,7 +63,8 @@
         "SLEEPY GREEN",
         "SLEEPY PURPLE",
         "SLEEPY RED",
-        "SLEEPY TURQUOISE"
+        "SLEEPY TURQUOISE",
+        "NOTHING"
     ],
     "EYES": [
         "CYCLOPS LASER GLASSES BLUE",
@@ -92,7 +93,8 @@
         "VR GOGGLES MULTICOLOR 02",
         "VR GOGGLES MULTICOLOR 03",
         "VR GOGGLES MULTICOLOR 04",
-        "VR GOGGLES WHITE"
+        "VR GOGGLES WHITE",
+        "NOTHING"
     ],
     "FACE": [
         "AGENT 47 (ALBINO)",
@@ -105,7 +107,8 @@
         "GOD OF WAR - SLEEPY EYES",
         "PAINT ALLOY (ALBINO)",
         "PAINT ALLOY (BLACK)",
-        "PAINT ALLOY (WHITE)"
+        "PAINT ALLOY (WHITE)",
+        "NOTHING"
     ],
     "HAIR": [
         "BASE (BASEBALL HAT)",
@@ -182,7 +185,8 @@
         "BUBBLEGUM (WHITE)",
         "CIGAR (ALBINO)",
         "CIGAR (BLACK)",
-        "CIGAR (WHITE)"
+        "CIGAR (WHITE)",
+        "NOTHING"
     ],
     "HEAD": [
         "LOKI CROWN - BUBBLE GUM MOUTH",
@@ -229,7 +233,8 @@
         "JASON MASK",
         "LUIGI HAT",
         "MARIO HAT",
-        "WATIO HAT"
+        "WATIO HAT",
+        "NOTHING"
     ],
     "CLOTHES": [
         "ASSASSIN'S CREED COSTUME",
@@ -286,5 +291,10 @@
         "POTARA EARRING RED",
         "POTARA EARRING YELLOW",
         "SILVER CHAIN"
+    ],
+    "BUBBLE GUM": [
+        "ON MOUTH (BLACK)",
+        "ON MOUTH (ALBINO)",
+        "ON MOUTH (WHITE)"
     ]
 }

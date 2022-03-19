@@ -3,15 +3,16 @@ import os
 
 from numpy import source
 
-def create_table(table_name):
+def create_table(table_name,column_type=None):
+    if column_type == None:
+        column_type = '''
+            layers_name TEXT,
+            current_index INTEGER,
+            new_index INTEGER DEFAULT 0
+            '''
     con = sqlite3.connect('source\\layers_configuration.db')
     cur = con.cursor()
-    cmd = f'''CREATE TABLE {table_name} (
-        layers_name TEXT,
-        current_index INTEGER,
-        new_index INTEGER DEFAULT 0
-    )
-    '''
+    cmd = f'CREATE TABLE {table_name} ({column_type})'
     cur.execute(cmd)
     con.close()
 
@@ -21,11 +22,12 @@ def collect_layers(source_path,database='source\\layers_configuration.db'):
 
     for file in os.listdir(source_path):
         if file.endswith('png'):
+            file = file.strip('.png')
             splits = file.split('_')
             index = splits[0]
             file_name = "_".join(splits[1:])
 
-            cur.execute('INSERT or IGNORE INTO layers(layers_name,current_index) VALUES(?,?)',(file_name,index)) 
+            cur.execute(f'INSERT or IGNORE INTO rarity(layers) VALUES("{file_name}")')
 
     con.commit()
     con.close()
@@ -48,7 +50,11 @@ def rename_layers(source_path='layers'):
 
 if __name__ == "__main__":
 
-    # create_table('layers')
+    # new_column = '''
+    #     layers TEXT UNIQUE,
+    #     probability REAL DEFAULT 0.0
+    # '''
+    # create_table('rarity',new_column)
 
     collect_layers('layers')
 

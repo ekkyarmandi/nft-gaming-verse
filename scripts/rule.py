@@ -1,100 +1,60 @@
-import random
+from html import entities
+
 
 def update(key,value,attributes):
 
-    def remove_vr(attributes):
-        try:
-            attributes['EYES'].remove('CYCLOPS LASER GLASSES')
-            attributes['EYES'].remove('VR GOGGLES BROWN')
-            attributes['EYES'].remove('VR GOGGLES LIGHT GREY')
-            attributes['EYES'].remove('VR GOGGLES MULTICOLOR 01')
-            attributes['EYES'].remove('VR GOGGLES MULTICOLOR 02')
-            attributes['EYES'].remove('VR GOGGLES MULTICOLOR 03')
-            attributes['EYES'].remove('VR GOGGLES MULTICOLOR 04')
-            attributes['EYES'].remove('VR GOGGLES MULTICOLOR 05')
-            attributes['EYES'].remove('VR GOGGLES MULTICOLOR 06')
-            attributes['EYES'].remove('VR GOGGLES')
-        except: pass
+    def remove(attributes,keyword,trait_type):
+        entities = [t for t in attributes[trait_type] if keyword in t]
+        for e in entities:
+            attributes[trait_type].remove(e)
+        if len(attributes[trait_type]) == 0:
+            attributes[trait_type] = ["NOTHING"]
+        return attributes
+
+    def keep(attributes,keyword,trait_type):
+        entities = [t for t in attributes[trait_type] if keyword in t or t == "NOTHING"]
+        attributes[trait_type] = entities
         return attributes
 
     if key == 'SKIN' and value == 'ALBINO':
-        attributes['EYES'].remove('GLOW (BLACK)')
-        attributes['EYES'].remove('GLOW (WHITE)')
-        attributes['EYES'].remove('GLOW LIGHT GREEN (BLACK)')
-        attributes['EYES'].remove('GLOW LIGHT GREEN (WHITE)')
-        attributes['EYES'].remove('GLOW TURQUOISE (BLACK)')
-        attributes['EYES'].remove('GLOW TURQUOISE (WHITE)')
-        attributes['EYES'].remove('SLEEPY (BLACK)')
-        attributes['EYES'].remove('SLEEPY (WHITE)')
-        attributes['FACE'].remove('AGENT 47 (BLACK)')
-        attributes['FACE'].remove('AGENT 47 (WHITE)')
-        attributes['FACE'].remove('GOD OF WAR - BASE EYES (BLACK)')
-        attributes['FACE'].remove('GOD OF WAR - BASE EYES (WHITE)')
-        attributes['FACE'].remove('PAINT ALLOY (BLACK)')
-        attributes['FACE'].remove('PAINT ALLOY (WHITE)')
-        attributes['MOUTH'].remove('BRACES (BLACK)')
-        attributes['MOUTH'].remove('BRACES (WHITE)')
-        attributes['MOUTH'].remove('LOLLIPOP (BLACK)')
-        attributes['MOUTH'].remove('LOLLIPOP (WHITE)')
-        attributes['MOUTH'].remove('BUBBLEGUM (BLACK)')
-        attributes['MOUTH'].remove('BUBBLEGUM (WHITE)')
-        attributes['MOUTH'].remove('CIGAR (BLACK)')
-        attributes['MOUTH'].remove('CIGAR (WHITE)')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='EYES')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='EYES')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='FACE')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='FACE')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='MOUTH')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='MOUTH')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='BUBBLE GUM')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='BUBBLE GUM')
         attributes['VITILIGO SKIN'] = ['NOTHING']
     elif key == 'SKIN' and value == 'WHITE':
-        attributes['EYES'].remove('GLOW (ALBINO)')
-        attributes['EYES'].remove('GLOW (BLACK)')
-        attributes['EYES'].remove('GLOW LIGHT GREEN (ALBINO)')
-        attributes['EYES'].remove('GLOW LIGHT GREEN (BLACK)')
-        attributes['EYES'].remove('GLOW TURQUOISE (ALBINO)')
-        attributes['EYES'].remove('GLOW TURQUOISE (BLACK)')
-        attributes['EYES'].remove('SLEEPY (ALBINO)')
-        attributes['EYES'].remove('SLEEPY (BLACK)')
-        attributes['FACE'].remove('AGENT 47 (ALBINO)')
-        attributes['FACE'].remove('AGENT 47 (BLACK)')
-        attributes['FACE'].remove('GOD OF WAR - BASE EYES (ALBINO)')
-        attributes['FACE'].remove('GOD OF WAR - BASE EYES (BLACK)')
-        attributes['FACE'].remove('PAINT ALLOY (ALBINO)')
-        attributes['FACE'].remove('PAINT ALLOY (BLACK)')
-        attributes['MOUTH'].remove('BRACES (ALBINO)')
-        attributes['MOUTH'].remove('BRACES (BLACK)')
-        attributes['MOUTH'].remove('LOLLIPOP (ALBINO)')
-        attributes['MOUTH'].remove('LOLLIPOP (BLACK)')
-        attributes['MOUTH'].remove('BUBBLEGUM (ALBINO)')
-        attributes['MOUTH'].remove('BUBBLEGUM (BLACK)')
-        attributes['MOUTH'].remove('CIGAR (ALBINO)')
-        attributes['MOUTH'].remove('CIGAR (BLACK)')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='EYES')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='EYES')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='FACE')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='FACE')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='MOUTH')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='MOUTH')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='BUBBLE GUM')
+        attributes = remove(attributes,keyword='(BLACK)',trait_type='BUBBLE GUM')
     elif key == 'SKIN' and value == 'BLACK':
-        attributes['EYES'].remove('GLOW (ALBINO)')
-        attributes['EYES'].remove('GLOW (WHITE)')
-        attributes['EYES'].remove('GLOW LIGHT GREEN (ALBINO)')
-        attributes['EYES'].remove('GLOW LIGHT GREEN (WHITE)')
-        attributes['EYES'].remove('GLOW TURQUOISE (ALBINO)')
-        attributes['EYES'].remove('GLOW TURQUOISE (WHITE)')
-        attributes['EYES'].remove('SLEEPY (ALBINO)')
-        attributes['EYES'].remove('SLEEPY (WHITE)')
-        attributes['FACE'].remove('AGENT 47 (ALBINO)')
-        attributes['FACE'].remove('AGENT 47 (WHITE)')
-        attributes['FACE'].remove('GOD OF WAR - BASE EYES (ALBINO)')
-        attributes['FACE'].remove('GOD OF WAR - BASE EYES (WHITE)')
-        attributes['FACE'].remove('PAINT ALLOY (ALBINO)')
-        attributes['FACE'].remove('PAINT ALLOY (WHITE)')
-        attributes['MOUTH'].remove('BRACES (ALBINO)')
-        attributes['MOUTH'].remove('BRACES (WHITE)')
-        attributes['MOUTH'].remove('LOLLIPOP (ALBINO)')
-        attributes['MOUTH'].remove('LOLLIPOP (WHITE)')
-        attributes['MOUTH'].remove('BUBBLEGUM (ALBINO)')
-        attributes['MOUTH'].remove('BUBBLEGUM (WHITE)')
-        attributes['MOUTH'].remove('CIGAR (ALBINO)')
-        attributes['MOUTH'].remove('CIGAR (WHITE)')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='EYES')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='EYES')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='FACE')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='FACE')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='MOUTH')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='MOUTH')
+        attributes = remove(attributes,keyword='(ALBINO)',trait_type='BUBBLE GUM')
+        attributes = remove(attributes,keyword='(WHITE)',trait_type='BUBBLE GUM')
 
     if key == "VITILIGO SKIN" and value == "NOTHING":
         attributes['VITILIGO FACE'] = ['NOTHING']
 
     if key == "MOUTH" and "MOUTH" in attributes['VITILIGO FACE'] and any([x in value for x in ['BRACES','LOLLIPOP','BUBBLEGUM','CIGAR']]):
         attributes['VITILIGO FACE'] = ['MOUTH']
+    if key == "MOUTH" and "BUBBLEGUM" not in value:
+        attributes['BUBBLE GUM'] = ['NOTHING']
     if key == "MOUTH" and "BUBBLEGUM" in value:
         attributes['HEAD'].remove('LOKI CROWN')
+        attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='HEAD')
     elif key == "MOUTH" and any([x in value for x in ['BRACES','LOLLIPOP','CIGAR']]):
         attributes['HEAD'].remove('LOKI CROWN - BUBBLE GUM MOUTH')
 
@@ -102,44 +62,61 @@ def update(key,value,attributes):
         attributes['HEAD'] = ['NOTHING']
         attributes['HAIR'] = ['NOTHING']
         attributes['ACCESSORIES'] = ['NOTHING']
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES BLUE')
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES GREEN')
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES PINK')
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES TURQUOISE')
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES VIOLET')
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES YELLOW')
-        attributes['EYES'].remove('CYCLOPS LASER GLASSES')
-        attributes['EYES'].remove('VR GOGGLES BLACK')
-        attributes['EYES'].remove('VR GOGGLES BROWN')
-        attributes['EYES'].remove('VR GOGGLES LIGHT GREY')
-        attributes['EYES'].remove('VR GOGGLES MULTICOLOR 01')
-        attributes['EYES'].remove('VR GOGGLES MULTICOLOR 02')
-        attributes['EYES'].remove('VR GOGGLES MULTICOLOR 03')
-        attributes['EYES'].remove('VR GOGGLES MULTICOLOR 04')
-        attributes['EYES'].remove('VR GOGGLES WHITE')
+        attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='EYES')
+        attributes = remove(attributes,keyword='VR GOGGLES',trait_type='EYES')
+        attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
     elif key == "CLOTHES" and value in ['SQUID GAME JACKET','TOMMY VERCETTI SHIRT']:
-        attributes['ACCESSORIES'].remove('BK BAG BLACK')
-        attributes['ACCESSORIES'].remove('BK BAG BLUE')
-        attributes['ACCESSORIES'].remove('BK BAG LIGHT GREEN')
-        attributes['ACCESSORIES'].remove('BK BAG LIGHT GREY')
-        attributes['ACCESSORIES'].remove('BK BAG LIME GREEN')
-        attributes['ACCESSORIES'].remove('BK BAG ORANGE')
-        attributes['ACCESSORIES'].remove('BK BAG PURPLE')
-        attributes['ACCESSORIES'].remove('BK BAG RED')
-        attributes['ACCESSORIES'].remove('BK BAG SKY BLUE')
-        attributes['ACCESSORIES'].remove('BK BAG YELLOW')
+        attributes = remove(attributes,keyword='BK BAG',trait_type='ACCESSORIES')
         attributes['ACCESSORIES'].remove('GOLD CHAIN')
         attributes['ACCESSORIES'].remove('SILVER CHAIN')
 
     if key == "HEAD" and 'LOKI CROWN' in value:
-        attributes['ACCESSORIES'].remove('GAMMER EARRING GOLD')
-        attributes['ACCESSORIES'].remove('GAMMER EARRING SILVER')
-        attributes['ACCESSORIES'].remove('POTARA EARRING BLUE')
-        attributes['ACCESSORIES'].remove('POTARA EARRING GREEN')
-        attributes['ACCESSORIES'].remove('POTARA EARRING ORANGE')
-        attributes['ACCESSORIES'].remove('POTARA EARRING PURPLE')
-        attributes['ACCESSORIES'].remove('POTARA EARRING RED')
-        attributes['ACCESSORIES'].remove('POTARA EARRING YELLOW')
+        attributes = remove(attributes,keyword='GAMMER EARRING',trait_type='ACCESSORIES')
+        attributes = remove(attributes,keyword='POTARA EARRING',trait_type='ACCESSORIES')
+        attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='EYES')
+        attributes = remove(attributes,keyword='VR GOGGLES',trait_type='EYES')
+    elif key == "HEAD" and "BASEBALL CAP BACK" in value:
+        attributes = keep(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+        attributes = remove(attributes,keyword='VR GOGGLES',trait_type='EYES')
+    elif key == "HEAD" and "HEADPHONES" in value:
+        attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='EYES')
+        attributes = remove(attributes,keyword='VR GOGGLES',trait_type='EYES')
+        attributes = remove(attributes,keyword='GAMMER EARRING',trait_type='ACCESSORIES')
+        attributes = remove(attributes,keyword='POTARA EARRING',trait_type='ACCESSORIES')
+        attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+        if "BASE HAIR" in value:
+            attributes = keep(attributes,keyword='BASE',trait_type='HAIR')
+        elif "DREADLOCKS" in value:
+            attributes = keep(attributes,keyword='DREADLOCKS',trait_type='HAIR')
+        elif "PUSHED BACK HAIR" in value:
+            attributes = keep(attributes,keyword='PUSHED BACK',trait_type='HAIR')
+        elif "TWISTS" in value:
+            attributes = keep(attributes,keyword='TWISTS',trait_type='HAIR')
+    elif key == "HEAD" and (value in ['LUIGI HAT','MARIO HAT','WATIO HAT'] or 'DRINKING HELMET' in value):
+        attributes = remove(attributes,keyword='VR',trait_type='EYES')
+        attributes = remove(attributes,keyword='CYCLOPS',trait_type='EYES')
+        attributes['HAIR'] = ['NOTHING']
+    elif key == "HEAD" and value == "JASON MASK":
+        attributes = remove(attributes,keyword='VR',trait_type='EYES')
+        attributes = remove(attributes,keyword='CYCLOPS',trait_type='EYES')
+        attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+
+    if key == "EYES" and "GLOW" in value:
+        attributes = remove(attributes,keyword='GOD OF WAR - BASE EYES',trait_type='FACE')
+        attributes['FACE'].remove('GOD OF WAR - SLEEPY EYES')
+        attributes['EYES PUPIL'] = ['NOTHING']
+    elif key == "EYES" and "SLEEPY" in value:
+        attributes = keep(attributes,keyword='SLEEPY',trait_type='EYES PUPIL')
+        attributes = remove(attributes,keyword='GOD OF WAR - BASE EYES',trait_type='FACE')
+        attributes['FACE'].remove('GOD OF WAR - GLOW EYES')
+    elif key == "EYES" and any([x in value for x in ['VR','CYCLOPS']]):
+        attributes['FACE'].remove('GOD OF WAR - SLEEPY EYES')
+        attributes['FACE'].remove('GOD OF WAR - GLOW EYES')
+        attributes['EYES PUPIL'] = ['NOTHING']
+    elif key == "EYES" and value == "NOTHING":
+        attributes = keep(attributes,keyword='BASE',trait_type='EYES PUPIL')
+        attributes = remove(attributes,keyword='GLOW',trait_type='FACE')
+        attributes = remove(attributes,keyword='SLEEPY',trait_type='FACE')
 
     return attributes
 
