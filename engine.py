@@ -74,6 +74,21 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
         'BUBBLE GUM'
     ]
 
+    # define allowed trait types
+    allowed_traits = [
+        'BACKGROUND',
+        'SKIN',
+        'VITILIGO SKIN',
+        'MOUTH',
+        'CLOTHES',
+        'HEAD',
+        'EYES',
+        'FACE',
+        'HAIR',
+        'ACCESSORIES',
+        'GAMING GADGETS',
+    ]
+
     # define the empty variable
     metadata = []
     number = int(number)
@@ -85,13 +100,17 @@ def generator(number=10, attribute_file='source\\attributes.json', output_path='
         # random generate the combination
         instance = {}
         for trait_type in trait_types:
+            if trait_type in allowed_traits:
+                item = rule.choose(attributes,trait_type)
+            else:
+                item = random.choice(attributes[trait_type])
             item = random.choice(attributes[trait_type])
             attributes = rule.update(trait_type,item,attributes)
             instance = rule.get_rid(trait_type,item,instance)
             instance.update({trait_type:item})
 
         # collect the instance
-        instance = rule.reformat(instance)
+        # instance = rule.reformat(instance)
         metadata.append(instance)
 
     # dump the metadata
@@ -138,18 +157,18 @@ def exporter(metadata_path,file_name="sample"):
 
 if __name__ == "__main__":
 
-    # if sys.argv[1] == 'compile':
-    #     compiler(
-    #         layers_path='layers',
-    #         generate_attribute=False,
-    #         generate_source=True
-    #     )
+    if sys.argv[1] == 'compile':
+        compiler(
+            layers_path='layers',
+            generate_attribute=False,
+            generate_source=True
+        )
 
-    # elif sys.argv[1] == 'generate':
-    #     generator(number=sys.argv[2])
+    elif sys.argv[1] == 'generate':
+        generator(number=sys.argv[2])
 
-    # elif sys.argv[1] == "export":
-    #     try: exporter(os.path.join('output',sys.argv[2]),sys.argv[3])
-    #     except: exporter(os.path.join('output','metadata.json'),file_name='sample')
+    elif sys.argv[1] == "export":
+        try: exporter(os.path.join('output',sys.argv[2]),sys.argv[3])
+        except: exporter(os.path.join('output','metadata.json'),file_name='sample')
 
-    generator()
+    # generator()

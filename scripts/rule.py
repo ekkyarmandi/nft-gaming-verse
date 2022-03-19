@@ -1,4 +1,14 @@
 import re
+import random
+import sqlite3
+
+def load_probability(trait_type,trait_names):
+    con = sqlite3.connect('source\\layers_configuration.db')
+    cur = con.cursor()
+    cur.execute(f'SELECT trait_name,probability FROM rarity WHERE trait_type="{trait_type}"',)
+    data = cur.fetchall()
+    con.close()
+    return data
 
 def update(key,value,attributes):
 
@@ -109,6 +119,7 @@ def update(key,value,attributes):
         attributes = remove(attributes,keyword='GOD OF WAR - BASE EYES',trait_type='FACE')
         attributes['FACE'].remove('GOD OF WAR - GLOW EYES')
     elif key == "EYES" and any([x in value for x in ['VR','CYCLOPS']]):
+        attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
         attributes['FACE'].remove('GOD OF WAR - SLEEPY EYES')
         attributes['FACE'].remove('GOD OF WAR - GLOW EYES')
         attributes['EYES PUPIL'] = ['NOTHING']
@@ -176,3 +187,22 @@ def reformat(metadata):
             new_metadata['EYES'] = " ".join([metadata['EYES'],color,'PUPIL'])
 
     return new_metadata
+
+def choose(attributes,attr_key):
+    # load trait probability
+    prob = load_probability(attr_key, attributes[attr_key])
+
+    # do probability normalization
+    names = [a[0] for a in prob]
+    probs = [float(p[1]) for p in prob]
+    probs = [p/sum(probs) for p in probs]
+
+    # do random selections based on it's probability weights
+    item = random.choices(names,weights=probs,k=1)
+    
+    return item[0]
+
+if __name__ == '__main__':
+
+    data = load_probability('VITILIGO SKIN',['BASE','NOTHING'])
+    print(data)
