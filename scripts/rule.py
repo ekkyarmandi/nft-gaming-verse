@@ -1,6 +1,7 @@
 import re
 import random
 import sqlite3
+import json
 
 def load_probability(trait_type,trait_names):
     con = sqlite3.connect('source\\layers_configuration.db')
@@ -8,6 +9,7 @@ def load_probability(trait_type,trait_names):
     cur.execute(f'SELECT trait_name,probability FROM rarity WHERE trait_type="{trait_type}"',)
     data = cur.fetchall()
     con.close()
+    data = [a for a in data if a[0] in trait_names]
     return data
 
 def update(key,value,attributes):
@@ -61,6 +63,8 @@ def update(key,value,attributes):
         attributes['VITILIGO FACE'] = ['MOUTH']
     if key == "MOUTH" and "BUBBLEGUM" not in value:
         attributes['BUBBLE GUM'] = ['NOTHING']
+    if key == "MOUTH" and "CIGAR" not in value:
+        attributes['CIGAR'] = ['NOTHING']
     if key == "MOUTH" and "BUBBLEGUM" in value:
         attributes['HEAD'].remove('LOKI CROWN')
         attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='HEAD')
@@ -84,8 +88,10 @@ def update(key,value,attributes):
         attributes = remove(attributes,keyword='POTARA EARRING',trait_type='ACCESSORIES')
         attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='EYES')
         attributes = remove(attributes,keyword='VR GOGGLES',trait_type='EYES')
+        attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
     elif key == "HEAD" and "BASEBALL CAP BACK" in value:
         attributes = keep(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+        attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
         attributes = remove(attributes,keyword='VR GOGGLES',trait_type='EYES')
     elif key == "HEAD" and "HEADPHONES" in value:
         attributes = remove(attributes,keyword='CYCLOPS LASER GLASSES',trait_type='EYES')
@@ -102,24 +108,31 @@ def update(key,value,attributes):
         elif "TWISTS" in value:
             attributes = keep(attributes,keyword='TWISTS',trait_type='HAIR')
     elif key == "HEAD" and (value in ['LUIGI HAT','MARIO HAT','WATIO HAT'] or 'DRINKING HELMET' in value):
+        attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
         attributes = remove(attributes,keyword='VR',trait_type='EYES')
         attributes = remove(attributes,keyword='CYCLOPS',trait_type='EYES')
         attributes['HAIR'] = ['NOTHING']
     elif key == "HEAD" and value == "JASON MASK":
         attributes = remove(attributes,keyword='VR',trait_type='EYES')
         attributes = remove(attributes,keyword='CYCLOPS',trait_type='EYES')
+        attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
         attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+    elif key == "HEAD" and "DRINKING" in value:
+        attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
 
     if key == "EYES" and "GLOW" in value:
-        attributes = remove(attributes,keyword='GOD OF WAR - BASE EYES',trait_type='FACE')
-        attributes['FACE'].remove('GOD OF WAR - SLEEPY EYES')
+        attributes = remove(attributes,keyword='GOD OF WAR',trait_type='FACE')
         attributes['EYES PUPIL'] = ['NOTHING']
     elif key == "EYES" and "SLEEPY" in value:
         attributes = keep(attributes,keyword='SLEEPY',trait_type='EYES PUPIL')
         attributes = remove(attributes,keyword='GOD OF WAR - BASE EYES',trait_type='FACE')
         attributes['FACE'].remove('GOD OF WAR - GLOW EYES')
     elif key == "EYES" and any([x in value for x in ['VR','CYCLOPS']]):
-        attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+        if all(['BASEBALL HAT' in x for x in attributes['HAIR']]) != True:
+            attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
+        if 'CYCLOPS' in value:
+            attributes = remove(attributes,keyword='PAINT ALLOY',trait_type='FACE')
+        attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
         attributes['FACE'].remove('GOD OF WAR - SLEEPY EYES')
         attributes['FACE'].remove('GOD OF WAR - GLOW EYES')
         attributes['EYES PUPIL'] = ['NOTHING']
@@ -181,28 +194,61 @@ def reformat(metadata):
     if any([x in metadata['EYES'] for x in ['SLEEPY','GLOW','NOTHING']]):
         if metadata['EYES'] == 'NOTHING':
             new_metadata['EYES'] = metadata['EYES'] = 'BASE'
+        elif metadata['EYES'] == 'GLOW':
+            new_metadata['EYES'] = metadata['EYES'] = 'GLOW GREEN'
         if metadata['EYES PUPIL'] != 'NOTHING':
             color = metadata['EYES PUPIL'].split(' ')[1:]
             color = " ".join(color)
             new_metadata['EYES'] = " ".join([metadata['EYES'],color,'PUPIL'])
+        elif metadata['EYES PUPIL'] == 'NOTHING' and metadata['EYES'] == 'SLEEPY':
+            new_metadata['EYES'] = " ".join([metadata['EYES'],'BROWN PUPIL'])
 
     return new_metadata
 
 def choose(attributes,attr_key):
     # load trait probability
-    prob = load_probability(attr_key, attributes[attr_key])
+    data = load_probability(attr_key, attributes[attr_key])
 
     # do probability normalization
-    names = [a[0] for a in prob]
-    probs = [float(p[1]) for p in prob]
+    names = [a[0] for a in data]
+    probs = [float(p[1]) for p in data]
     probs = [p/sum(probs) for p in probs]
 
     # do random selections based on it's probability weights
-    item = random.choices(names,weights=probs,k=1)
-    
-    return item[0]
+    if len(data) > 0:
+        item = random.choices(names,weights=probs,k=1)
+        return item[0]
+    else:
+        item = random.choice(attributes[attr_key])
+        return item
 
+def rarity_calculator(metadata):
+    from pprint import pprint
+
+    traits = {}
+    n = len(metadata)
+    
+    # assign all the variables
+    for data in metadata:
+        for trait_type in data:
+            value = data[trait_type]
+            try: traits[trait_type][value] = 0
+            except: traits[trait_type] = {value:0}
+    
+    # count for the trait value
+    for data in metadata:
+        for trait_type in data:
+            value = data[trait_type]
+            traits[trait_type][value] += 1
+
+    # calculate the percentages
+    for trait_type in traits:
+        for value in traits[trait_type]:
+            traits[trait_type][value] = traits[trait_type][value]/n
+
+    pprint(traits)
+    
 if __name__ == '__main__':
 
-    data = load_probability('VITILIGO SKIN',['BASE','NOTHING'])
-    print(data)
+    metadata = json.load(open('output\\real_metadata.json'))
+    rarity_calculator(metadata)

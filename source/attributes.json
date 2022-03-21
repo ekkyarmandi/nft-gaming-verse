@@ -73,7 +73,7 @@
         "CYCLOPS LASER GLASSES TURQUOISE",
         "CYCLOPS LASER GLASSES VIOLET",
         "CYCLOPS LASER GLASSES YELLOW",
-        "CYCLOPS LASER GLASSES",
+        "CYCLOPS LASER GLASSES RED",
         "GLOW (ALBINO)",
         "GLOW (BLACK)",
         "GLOW (WHITE)",
@@ -293,8 +293,9 @@
         "SILVER CHAIN"
     ],
     "BUBBLE GUM": [
-        "ON MOUTH (BLACK)",
-        "ON MOUTH (ALBINO)",
-        "ON MOUTH (WHITE)"
+        "ON MOUTH"
+    ],
+    "CIGAR": [
+        "ON MOUTH"
     ]
 }
