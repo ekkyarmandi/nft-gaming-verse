@@ -76,6 +76,7 @@ def generator(number=10, attribute_file="source\\attributes.json", output_path="
         "ACCESSORIES",
         "GAMING GADGETS",
         "BUBBLE GUM",
+        "CIGAR"
     ]
 
     # define allowed trait types
@@ -118,7 +119,6 @@ def generator(number=10, attribute_file="source\\attributes.json", output_path="
         if instance_str not in unique_metadata:
             unique_metadata.append(instance_str)
             metadata.append(instance)
-            print(len(metadata))
 
     # dump the metadata
     json.dump(metadata, open(output_path, "w"), indent=4)

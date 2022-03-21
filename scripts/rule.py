@@ -34,8 +34,6 @@ def update(key,value,attributes):
         attributes = remove(attributes,keyword='(WHITE)',trait_type='FACE')
         attributes = remove(attributes,keyword='(BLACK)',trait_type='MOUTH')
         attributes = remove(attributes,keyword='(WHITE)',trait_type='MOUTH')
-        attributes = remove(attributes,keyword='(BLACK)',trait_type='BUBBLE GUM')
-        attributes = remove(attributes,keyword='(WHITE)',trait_type='BUBBLE GUM')
         attributes['VITILIGO SKIN'] = ['NOTHING']
     elif key == 'SKIN' and value == 'WHITE':
         attributes = remove(attributes,keyword='(ALBINO)',trait_type='EYES')
@@ -44,8 +42,6 @@ def update(key,value,attributes):
         attributes = remove(attributes,keyword='(BLACK)',trait_type='FACE')
         attributes = remove(attributes,keyword='(ALBINO)',trait_type='MOUTH')
         attributes = remove(attributes,keyword='(BLACK)',trait_type='MOUTH')
-        attributes = remove(attributes,keyword='(ALBINO)',trait_type='BUBBLE GUM')
-        attributes = remove(attributes,keyword='(BLACK)',trait_type='BUBBLE GUM')
     elif key == 'SKIN' and value == 'BLACK':
         attributes = remove(attributes,keyword='(ALBINO)',trait_type='EYES')
         attributes = remove(attributes,keyword='(WHITE)',trait_type='EYES')
@@ -53,8 +49,6 @@ def update(key,value,attributes):
         attributes = remove(attributes,keyword='(WHITE)',trait_type='FACE')
         attributes = remove(attributes,keyword='(ALBINO)',trait_type='MOUTH')
         attributes = remove(attributes,keyword='(WHITE)',trait_type='MOUTH')
-        attributes = remove(attributes,keyword='(ALBINO)',trait_type='BUBBLE GUM')
-        attributes = remove(attributes,keyword='(WHITE)',trait_type='BUBBLE GUM')
 
     if key == "VITILIGO SKIN" and value == "NOTHING":
         attributes['VITILIGO FACE'] = ['NOTHING']
@@ -119,6 +113,8 @@ def update(key,value,attributes):
         attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
     elif key == "HEAD" and "DRINKING" in value:
         attributes = remove(attributes,keyword='AGENT 47',trait_type='FACE')
+    elif key == "HEAD" and value == "NOTHING":
+        attributes = remove(attributes,keyword='(BASEBALL HAT)',trait_type='HAIR')
 
     if key == "EYES" and "GLOW" in value:
         attributes = remove(attributes,keyword='GOD OF WAR',trait_type='FACE')
@@ -244,11 +240,14 @@ def rarity_calculator(metadata):
     # calculate the percentages
     for trait_type in traits:
         for value in traits[trait_type]:
-            traits[trait_type][value] = traits[trait_type][value]/n
-
-    pprint(traits)
+            t = traits[trait_type][value]
+            traits[trait_type][value] = f'{t} ({100*t/n:.2f}%)'
+    
+    # dump the output
+    json.dump(traits,open('output\\sumarry.json','w'),indent=4,sort_keys=True)
     
 if __name__ == '__main__':
 
     metadata = json.load(open('output\\real_metadata.json'))
     rarity_calculator(metadata)
+    print("done")
